@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚖️ Center of Mass, Stability & Equilibrium - Grade 11 Advanced</title>
+<meta name="description" content="امتحان تفاعلي شامل في مركز الكتلة والاستقرار والاتزان - فيزياء 11 متقدم">
+<meta name="author" content="Mr. Mohammed Hesham">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Cairo', sans-serif; }
+body.en-mode { font-family: 'Inter', sans-serif; }
+.arabic-math { font-family: 'Amiri', 'Cairo', serif; }
+.correct { background-color: #dcfce7 !important; border-color: #16a34a !important; }
+.incorrect { background-color: #fee2e2 !important; border-color: #dc2626 !important; }
+.timer-warning { color: #dc2626 !important; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.7; } }
+@media print { .no-print { display: none !important; } }
+.success-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.875rem; }
+.grade-excellent { background: #dcfce7; color: #166534; }
+.grade-good { background: #fef3c7; color: #92400e; }
+.grade-pass { background: #dbeafe; color: #1e40af; }
+.grade-fail { background: #fee2e2; color: #991b1b; }
+.lang-switch {
+position: fixed; top: 16px; left: 16px; z-index: 100;
+background: white; padding: 6px; border-radius: 30px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; gap: 4px;
+border: 2px solid #0891b2;
+}
+[dir="ltr"] .lang-switch { left: auto; right: 16px; }
+.lang-btn {
+padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold;
+transition: all 0.3s; border: none; font-size: 0.875rem;
+background: transparent; color: #6b7280;
+}
+.lang-btn.active { background: #0891b2; color: white; box-shadow: 0 2px 6px rgba(8,145,178,0.4); }
+.lang-btn:hover:not(.active) { background: #ecfeff; color: #0891b2; }
+.shuffle-badge {
+display: inline-block;
+background: linear-gradient(135deg, #0891b2, #0e7490);
+color: white; padding: 4px 12px; border-radius: 20px;
+font-size: 0.75rem; font-weight: bold; margin-right: 8px;
+}
+.math-display {
+display: inline-block; direction: ltr;
+font-family: 'Amiri', 'Times New Roman', serif;
+font-size: 1.2em; font-style: italic;
+padding: 2px 8px; background: #ecfeff;
+border-radius: 6px; margin: 2px;
+color: #0e7490; font-weight: 600; letter-spacing: 0.5px;
+}
+.save-indicator {
+position: fixed; bottom: 20px; left: 20px; z-index: 200;
+background: #10b981; color: white; padding: 8px 16px;
+border-radius: 20px; font-size: 0.8rem; font-weight: bold;
+opacity: 0; transition: opacity 0.3s; pointer-events: none;
+box-shadow: 0 4px 12px rgba(16,185,129,0.4);
+}
+.save-indicator.show { opacity: 1; }
+.formula-box {
+background: #ecfeff; border: 2px solid #06b6d4;
+border-radius: 8px; padding: 12px; margin: 10px 0;
+font-family: 'Amiri', serif;
+direction: ltr; text-align: center;
+}
+.svg-graph {
+display: block;
+margin: 12px auto;
+background: white;
+border: 2px solid #e5e7eb;
+border-radius: 12px;
+padding: 8px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.graph-container { text-align: center; margin: 10px 0; }
+.module-badge {
+display: inline-block;
+padding: 4px 16px;
+border-radius: 20px;
+font-weight: bold;
+font-size: 0.85rem;
+margin-bottom: 8px;
+}
+.module-1 { background: #cffafe; color: #155e75; }
+.module-2 { background: #fef3c7; color: #92400e; }
+.module-3 { background: #fce7f3; color: #9f1239; }
+.module-4 { background: #ecfdf5; color: #065f46; }
+.module-5 { background: #ede9fe; color: #5b21b6; }
+.module-6 { background: #fee2e2; color: #991b1b; }
+</style>
+</head>
+<body class="bg-gradient-to-br from-cyan-50 to-teal-50 text-gray-800 p-4 md:p-8 min-h-screen">
+
+<div class="lang-switch no-print">
+<button class="lang-btn active" onclick="setLanguage('ar')" id="btn-ar">عربي</button>
+<button class="lang-btn" onclick="setLanguage('en')" id="btn-en">EN</button>
+</div>
+
+<div id="saveIndicator" class="save-indicator">💾 <span data-ar="تم الحفظ" data-en="Saved">تم الحفظ</span></div>
+
+<div id="timer-container" class="max-w-5xl mx-auto mb-4 text-center no-print">
+<div class="bg-white p-4 rounded-2xl shadow-md inline-block border-2 border-cyan-100">
+<span class="text-gray-600 ml-2" data-ar=" الوقت المتبقي:" data-en=" Time Remaining:">⏰ الوقت المتبقي:</span>
+<span id="timer" class="text-2xl font-bold text-cyan-700 font-mono">90:00</span>
+<span class="shuffle-badge" data-ar="️ Grade 11 Physics - 35 سؤال" data-en="⚖️ Grade 11 Physics - 35 Questions">️ Grade 11 Physics - 35 سؤال</span>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto mb-6 flex flex-wrap gap-3 justify-center no-print">
+<button onclick="toggleAnswers()" class="bg-cyan-700 hover:bg-cyan-800 text-white px-5 py-2 rounded-xl font-medium transition shadow cursor-pointer" data-ar="👀 إظهار / إخفاء الإجابات" data-en="👀 Show / Hide Answers">👀 إظهار / إخفاء الإجابات</button>
+<button onclick="window.print()" class="bg-gray-700 hover:bg-gray-900 text-white px-5 py-2 rounded-xl font-medium transition shadow cursor-pointer" data-ar="🖨️ طباعة" data-en="🖨️ Print">🖨️ طباعة</button>
+<button onclick="reshuffleExam()" class="bg-gradient-to-r from-cyan-700 to-teal-600 hover:from-cyan-800 hover:to-teal-700 text-white px-5 py-2 rounded-xl font-medium transition shadow cursor-pointer" data-ar="🔄 أسئلة جديدة" data-en="🔄 New Questions">🔄 أسئلة جديدة</button>
+<button onclick="clearProgress()" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl font-medium transition shadow cursor-pointer" data-ar="🗑️ مسح التقدم" data-en="🗑️ Clear Progress">️ مسح التقدم</button>
+</div>
+
+<header class="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow-lg mb-8 border-4 border-cyan-500">
+<div class="text-center">
+<div class="inline-block bg-cyan-700 text-white px-4 py-1 rounded-full text-xs font-bold mb-2">PHYSICS GRADE 11 ADVANCED</div>
+<h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2" data-ar="⚖️ مركز الكتلة والاستقرار والاتزان" data-en="⚖️ Center of Mass, Stability & Equilibrium">⚖️ مركز الكتلة والاستقرار والاتزان</h1>
+<h2 class="text-lg text-cyan-700 font-semibold" data-ar="الصف الحادي عشر المتقدم (فيزياء)" data-en="Grade 11 Advanced (Physics)">الصف الحادي عشر المتقدم (فيزياء)</h2>
+<p class="text-sm text-gray-600 mt-2" data-ar="مركز الكتلة، الاستقرار، شروط الاتزان، عزم الدوران، التطبيقات الحسابية" data-en="Center of Mass, Stability, Equilibrium Conditions, Torque, Applied Problems">مركز الكتلة، الاستقرار، شروط الاتزان، عزم الدوران، التطبيقات الحسابية</p>
+<p class="text-xs text-green-600 mt-2 font-semibold" data-ar="💾 يتم حفظ تقدمك تلقائياً - 35 سؤالاً في 6 أقسام" data-en="💾 Your progress is saved automatically - 35 questions in 6 sections"> يتم حفظ تقدمك تلقائياً - 35 سؤالاً في 6 أقسام</p>
+</div>
+<div class="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+<span><span data-ar="📅 التاريخ:" data-en="📅 Date:"> التاريخ:</span> <input type="text" id="examDate" class="border-b-2 border-cyan-300 bg-transparent w-28 text-center"></span>
+<span><span data-ar="😊 الاسم:" data-en="😊 Name:">😊 الاسم:</span> <input type="text" id="studentName" class="border-b-2 border-cyan-300 bg-transparent w-32 text-center" placeholder="اكتب اسمك"></span>
+<span><span data-ar="🏫 الشعبة:" data-en="🏫 Class:">🏫 الشعبة:</span> <input type="text" id="studentClass" class="border-b-2 border-cyan-300 bg-transparent w-28 text-center" placeholder="الشعبة"></span>
+<span data-ar="⏰ المدة: 90 دقيقة" data-en="⏰ Duration: 90 min">⏰ المدة: 90 دقيقة</span>
+<span data-ar="📊 المجموع: 100 درجة" data-en=" Total: 100 pts"> المجموع: 100 درجة</span>
+</div>
+</header>
+
+<div class="max-w-5xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-md border-2 border-cyan-200 no-print">
+<h3 class="font-bold text-lg mb-3 text-cyan-800 text-center" data-ar="📐 القوانين الأساسية" data-en="📐 Key Formulae">📐 القوانين الأساسية</h3>
+<div class="grid md:grid-cols-3 gap-3 text-sm">
+<div class="formula-box"><strong>Center of Mass:</strong> Point where mass concentrated</div>
+<div class="formula-box"><strong>Stability:</strong> Wide base + low COM</div>
+<div class="formula-box"><strong>Translational Eq:</strong> ΣF = 0</div>
+<div class="formula-box"><strong>Rotational Eq:</strong> Στ = 0</div>
+<div class="formula-box"><strong>Torque:</strong> τ = F × d × sin(θ)</div>
+<div class="formula-box"><strong>Weight:</strong> W = m × g</div>
+</div>
+</div>
+
+<main class="max-w-5xl mx-auto space-y-8" id="exam-content"></main>
+
+<div class="text-center no-print pb-8 mt-8">
+<button onclick="gradeExam()" class="bg-gradient-to-r from-cyan-700 to-teal-600 hover:from-cyan-800 hover:to-teal-700 text-white text-lg px-10 py-4 rounded-2xl font-bold shadow-xl transition transform hover:scale-105 cursor-pointer" data-ar="🎯 صحح إجاباتي!" data-en="🎯 Grade My Answers!"> صحح إجاباتي!</button>
+</div>
+
+<div id="results-panel" class="max-w-5xl mx-auto mt-8 bg-white p-8 rounded-2xl shadow-2xl border-4 border-cyan-500 hidden no-print">
+<h2 class="text-3xl font-bold text-gray-900 mb-6 text-center" data-ar="🏆 نتيجتك يا بطل! " data-en="🏆 Your Results, Champion! 🏆">🏆 نتيجتك يا بطل! 🏆</h2>
+<div class="grid md:grid-cols-3 gap-4 mb-6">
+<div class="bg-cyan-50 p-4 rounded-xl text-center"><p data-ar="😊 الاسم" data-en="😊 Name">😊 الاسم</p><p id="res-name" class="font-bold text-xl text-cyan-700">-</p></div>
+<div class="bg-teal-50 p-4 rounded-xl text-center"><p data-ar="📅 التاريخ" data-en="📅 Date">📅 التاريخ</p><p id="res-date" class="font-bold text-xl text-teal-700">-</p></div>
+<div class="bg-cyan-50 p-4 rounded-xl text-center"><p data-ar="🌟 المجموع" data-en="🌟 Score">🌟 المجموع</p><p id="res-total" class="font-bold text-3xl text-cyan-700">0 / 100</p></div>
+</div>
+<div class="text-center mb-6">
+<span id="success-badge" class="success-badge grade-excellent">-</span>
+<p id="success-percent" class="text-4xl font-bold text-cyan-700 mt-2">0%</p>
+<p class="text-sm text-gray-500" data-ar="نسبة النجاح" data-en="Success Rate">نسبة النجاح</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-xl mb-6">
+<h3 class="font-bold text-lg mb-4 text-gray-800" data-ar="📊 أدائك في كل قسم:" data-en="📊 Your Performance:">📊 أدائك في كل قسم:</h3>
+<div class="space-y-3" id="sections-performance"></div>
+</div>
+<div class="text-center mb-6">
+<button id="sendEmailBtn" onclick="sendResultsToEmail()" class="bg-gradient-to-r from-cyan-700 to-teal-600 text-white text-lg px-8 py-3 rounded-2xl font-bold shadow-xl transition cursor-pointer" data-ar="📧 أرسل النتيجة للمعلم" data-en="📧 Send Results to Teacher">📧 أرسل النتيجة للمعلم</button>
+<p id="emailStatus" class="text-sm mt-2 text-center font-medium"></p>
+</div>
+<div class="flex gap-3 justify-center">
+<button onclick="window.print()" class="bg-gray-700 text-white px-6 py-3 rounded-xl font-semibold" data-ar="🖨️ طباعة النتيجة" data-en="🖨️ Print Results">️ طباعة النتيجة</button>
+</div>
+</div>
+
+<footer class="max-w-5xl mx-auto mt-10 mb-8 text-center text-gray-500 text-sm no-print">
+© <span data-ar="مركز الكتلة والاتزان - الصف 11" data-en="Center of Mass & Equilibrium - Grade 11">مركز الكتلة والاتزان - الصف 11</span> | Mr. Mohammed Hesham ⚖️
+</footer>
+
+<script>
+const PUBLIC_KEY = "Rb3Lq8tXaFmc5YHUH";
+const SERVICE_ID = "service_w15m64i";
+const TEMPLATE_ID = "template_5b0u2tq";
+const TARGET_EMAIL = "mohammedhesham872@gmail.com";
+emailjs.init(PUBLIC_KEY);
+
+const STORAGE_KEY = 'com_stability_equilibrium_grade11_v1';
+const TOTAL_TIME = 5400;
+const TOTAL_QUESTIONS = 35;
+const TOTAL_SECTIONS = 6;
+
+let currentSeed = null;
+let answersVisible = false;
+let saveIndicatorTimeout = null;
+
+function mulberry32(a) {
+    return function() {
+        var t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+}
+let rng = null;
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('show');
+    if (saveIndicatorTimeout) clearTimeout(saveIndicatorTimeout);
+    saveIndicatorTimeout = setTimeout(() => indicator.classList.remove('show'), 1500);
+}
+
+function saveState(showIndicator = true) {
+    try {
+        const state = {
+            seed: currentSeed, lang: currentLang,
+            studentName: document.getElementById('studentName').value,
+            studentClass: document.getElementById('studentClass').value,
+            examDate: document.getElementById('examDate').value,
+            answers: getSelectedAnswers(),
+            timeRemaining: timeRemaining,
+            answersVisible: answersVisible, savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (showIndicator) showSaveIndicator();
+    } catch (e) { console.error('Save error:', e); }
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved ? JSON.parse(saved) : null;
+    } catch (e) { return null; }
+}
+
+function getSelectedAnswers() {
+    const answers = {};
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) answers[i] = selected.value;
+    }
+    return answers;
+}
+
+function restoreAnswers(answers) {
+    if (!answers) return;
+    for (const [idx, val] of Object.entries(answers)) {
+        const radio = document.querySelector(`input[name="q${idx}"][value="${val}"]`);
+        if (radio) radio.checked = true;
+    }
+}
+
+function clearProgress() {
+    const msg = currentLang === 'ar' ? '⚠️ هل أنت متأكد من مسح كل التقدم؟' : '⚠️ Clear all progress?';
+    if (confirm(msg)) { localStorage.removeItem(STORAGE_KEY); location.reload(); }
+}
+
+function setupAnswerListeners() {
+    document.getElementById('exam-content').addEventListener('change', (e) => {
+        if (e.target.type === 'radio') saveState();
+    });
+}
+
+function setupInputListeners() {
+    ['studentName', 'studentClass', 'examDate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', () => saveState(false));
+            el.addEventListener('blur', () => saveState());
+        }
+    });
+}
+
+// ==================== SVG Diagrams ====================
+const svgGraphs = {
+    center_of_mass: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#cffafe" stroke="#0891b2" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#155e75" font-weight="bold">⚖️ مركز الكتلة - Center of Mass</text>
+        <!-- Human figure -->
+        <circle cx="200" cy="60" r="15" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <line x1="200" y1="75" x2="200" y2="150" stroke="#374151" stroke-width="3"/>
+        <line x1="200" y1="90" x2="160" y2="130" stroke="#374151" stroke-width="3"/>
+        <line x1="200" y1="90" x2="240" y2="130" stroke="#374151" stroke-width="3"/>
+        <line x1="200" y1="150" x2="170" y2="210" stroke="#374151" stroke-width="3"/>
+        <line x1="200" y1="150" x2="230" y2="210" stroke="#374151" stroke-width="3"/>
+        <!-- COM marker -->
+        <circle cx="200" cy="120" r="8" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>
+        <text x="220" y="115" font-size="11" fill="#dc2626" font-weight="bold">COM</text>
+        <!-- Weight line -->
+        <line x1="200" y1="128" x2="200" y2="220" stroke="#dc2626" stroke-width="2" stroke-dasharray="4"/>
+        <text x="210" y="180" font-size="10" fill="#dc2626">W (weight)</text>
+        <!-- Base of support -->
+        <line x1="160" y1="215" x2="240" y2="215" stroke="#10b981" stroke-width="4"/>
+        <text x="200" y="240" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">Base of Support</text>
+        <text x="200" y="255" text-anchor="middle" font-size="10" fill="#065f46">COM slightly below navel in humans</text>
+    </svg>`,
+    
+    stability_diagram: `<svg class="svg-graph" width="400" height="280" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="270" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#92400e" font-weight="bold">🏗️ الاستقرار - Stability</text>
+        <!-- Stable box -->
+        <rect x="50" y="100" width="80" height="120" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <circle cx="90" cy="160" r="6" fill="#dc2626"/>
+        <text x="90" y="180" text-anchor="middle" font-size="9" fill="#92400e">Low COM</text>
+        <line x1="50" y1="220" x2="130" y2="220" stroke="#10b981" stroke-width="4"/>
+        <text x="90" y="240" text-anchor="middle" font-size="10" fill="#065f46" font-weight="bold">Wide Base ✓</text>
+        <text x="90" y="90" text-anchor="middle" font-size="11" fill="#065f46" font-weight="bold">STABLE</text>
+        <!-- Unstable box -->
+        <rect x="270" y="60" width="40" height="160" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <circle cx="290" cy="100" r="6" fill="#dc2626"/>
+        <text x="310" y="105" font-size="9" fill="#92400e">High COM</text>
+        <line x1="270" y1="220" x2="310" y2="220" stroke="#dc2626" stroke-width="4"/>
+        <text x="290" y="240" text-anchor="middle" font-size="10" fill="#991b1b" font-weight="bold">Narrow Base </text>
+        <text x="290" y="50" text-anchor="middle" font-size="11" fill="#991b1b" font-weight="bold">UNSTABLE</text>
+        <text x="200" y="265" text-anchor="middle" font-size="11" fill="#92400e">Wide base + Low COM = More stable</text>
+    </svg>`,
+    
+    tipping_box: `<svg class="svg-graph" width="400" height="280" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="270" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#9f1239" font-weight="bold">📦 انقلاب الصندوق - Tipping Box</text>
+        <!-- Ground -->
+        <line x1="50" y1="220" x2="370" y2="220" stroke="#374151" stroke-width="3"/>
+        <!-- Box upright -->
+        <rect x="100" y="120" width="80" height="100" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <circle cx="140" cy="170" r="5" fill="#dc2626"/>
+        <text x="140" y="115" text-anchor="middle" font-size="10" fill="#9f1239">Upright</text>
+        <!-- Pivot point -->
+        <circle cx="180" cy="220" r="6" fill="#10b981"/>
+        <text x="195" y="235" font-size="9" fill="#065f46">Pivot</text>
+        <!-- Box tipping -->
+        <polygon points="280,220 320,140 360,160 340,220" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" opacity="0.7"/>
+        <circle cx="320" cy="180" r="5" fill="#dc2626"/>
+        <text x="320" y="135" text-anchor="middle" font-size="10" fill="#9f1239">Tipping</text>
+        <circle cx="280" cy="220" r="6" fill="#10b981"/>
+        <text x="280" y="240" text-anchor="middle" font-size="9" fill="#065f46">Pivot</text>
+        <!-- Weight line -->
+        <line x1="140" y1="175" x2="140" y2="220" stroke="#dc2626" stroke-width="2" stroke-dasharray="3"/>
+        <line x1="320" y1="185" x2="320" y2="220" stroke="#dc2626" stroke-width="2" stroke-dasharray="3"/>
+        <text x="200" y="265" text-anchor="middle" font-size="11" fill="#9f1239">Pivot = bottom edge touching ground</text>
+    </svg>`,
+    
+    torque_diagram: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">🔧 عزم الدوران - Torque τ = F × d × sin(θ)</text>
+        <!-- Lever -->
+        <line x1="80" y1="130" x2="320" y2="130" stroke="#374151" stroke-width="4"/>
+        <!-- Pivot -->
+        <polygon points="190,130 210,130 200,150" fill="#7c3aed" stroke="#5b21b6" stroke-width="2"/>
+        <text x="200" y="170" text-anchor="middle" font-size="10" fill="#5b21b6" font-weight="bold">Pivot</text>
+        <!-- Force -->
+        <line x1="280" y1="130" x2="280" y2="80" stroke="#dc2626" stroke-width="3" marker-end="url(#arrow1)"/>
+        <text x="295" y="100" font-size="11" fill="#dc2626" font-weight="bold">F</text>
+        <!-- Distance d -->
+        <line x1="200" y1="145" x2="280" y2="145" stroke="#2563eb" stroke-width="2"/>
+        <text x="240" y="160" text-anchor="middle" font-size="11" fill="#2563eb" font-weight="bold">d (lever arm)</text>
+        <!-- Angle -->
+        <path d="M 270 130 A 10 10 0 0 0 280 120" fill="none" stroke="#f59e0b" stroke-width="2"/>
+        <text x="285" y="125" font-size="10" fill="#f59e0b">θ</text>
+        <defs><marker id="arrow1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
+        <text x="200" y="210" text-anchor="middle" font-size="12" fill="#065f46" font-family="'Amiri', serif">τ = F × d × sin(θ)</text>
+        <text x="200" y="235" text-anchor="middle" font-size="11" fill="#065f46">Maximum torque when θ = 90°</text>
+    </svg>`,
+    
+    equilibrium_conditions: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">⚖️ شروط الاتزان - Equilibrium</text>
+        <!-- Translational -->
+        <rect x="20" y="50" width="170" height="80" rx="8" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="105" y="75" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Translational</text>
+        <text x="105" y="100" text-anchor="middle" font-size="14" fill="#5b21b6" font-family="'Amiri', serif">ΣF = 0</text>
+        <text x="105" y="120" text-anchor="middle" font-size="9" fill="#5b21b6">No linear acceleration</text>
+        <!-- Rotational -->
+        <rect x="210" y="50" width="170" height="80" rx="8" fill="#ddd6fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="295" y="75" text-anchor="middle" font-size="11" fill="#5b21b6" font-weight="bold">Rotational</text>
+        <text x="295" y="100" text-anchor="middle" font-size="14" fill="#5b21b6" font-family="'Amiri', serif">Στ = 0</text>
+        <text x="295" y="120" text-anchor="middle" font-size="9" fill="#5b21b6">No angular acceleration</text>
+        <!-- Beam example -->
+        <line x1="50" y1="180" x2="350" y2="180" stroke="#374151" stroke-width="3"/>
+        <polygon points="190,180 210,180 200,200" fill="#7c3aed" stroke="#5b21b6" stroke-width="2"/>
+        <rect x="100" y="160" width="30" height="20" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <rect x="270" y="160" width="30" height="20" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <text x="115" y="155" text-anchor="middle" font-size="9" fill="#92400e">W₁</text>
+        <text x="285" y="155" text-anchor="middle" font-size="9" fill="#92400e">W₂</text>
+        <text x="200" y="230" text-anchor="middle" font-size="11" fill="#5b21b6">Both conditions must be satisfied</text>
+    </svg>`,
+    
+    lamp_pole: `<svg class="svg-graph" width="400" height="280" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="270" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#92400e" font-weight="bold">🔦 عمود المصباح المائل - Lamp Pole</text>
+        <!-- Pole -->
+        <line x1="100" y1="220" x2="280" y2="100" stroke="#78350f" stroke-width="6"/>
+        <!-- Pivot -->
+        <circle cx="100" cy="220" r="8" fill="#7c3aed" stroke="#5b21b6" stroke-width="2"/>
+        <text x="80" y="240" font-size="10" fill="#5b21b6" font-weight="bold">Pivot</text>
+        <!-- Pole weight at midpoint -->
+        <circle cx="190" cy="160" r="6" fill="#dc2626"/>
+        <line x1="190" y1="166" x2="190" y2="200" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow2)"/>
+        <text x="200" y="155" font-size="10" fill="#dc2626">27 N</text>
+        <!-- Lamp at end -->
+        <circle cx="280" cy="100" r="10" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <line x1="280" y1="110" x2="280" y2="150" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow3)"/>
+        <text x="290" y="130" font-size="10" fill="#dc2626">64 N</text>
+        <!-- Rope -->
+        <line x1="250" y1="120" x2="250" y2="60" stroke="#2563eb" stroke-width="2"/>
+        <text x="260" y="90" font-size="10" fill="#2563eb">T (tension)</text>
+        <!-- Angle -->
+        <text x="240" y="115" font-size="9" fill="#065f46">105°</text>
+        <defs><marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker>
+        <marker id="arrow3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
+        <text x="200" y="260" text-anchor="middle" font-size="11" fill="#92400e">Στ = 0 around pivot → find T</text>
+    </svg>`,
+    
+    diving_board: `<svg class="svg-graph" width="400" height="280" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="270" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#1e40af" font-weight="bold">🏊 لوحة القفز - Diving Board</text>
+        <!-- Board -->
+        <line x1="50" y1="150" x2="370" y2="150" stroke="#78350f" stroke-width="6"/>
+        <!-- Support 1 (end) -->
+        <polygon points="50,150 70,150 60,180" fill="#7c3aed" stroke="#5b21b6" stroke-width="2"/>
+        <text x="60" y="200" text-anchor="middle" font-size="10" fill="#5b21b6" font-weight="bold">Support 1</text>
+        <!-- Support 2 (center of mass) -->
+        <polygon points="200,150 220,150 210,180" fill="#7c3aed" stroke="#5b21b6" stroke-width="2"/>
+        <text x="210" y="200" text-anchor="middle" font-size="10" fill="#5b21b6" font-weight="bold">Support 2</text>
+        <!-- Diver -->
+        <circle cx="350" cy="120" r="15" fill="#fbbf24" stroke="#f59e0b" stroke-width="2"/>
+        <text x="350" y="125" text-anchor="middle" font-size="9" fill="#92400e" font-weight="bold">85kg</text>
+        <line x1="350" y1="135" x2="350" y2="150" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow4)"/>
+        <text x="365" y="145" font-size="10" fill="#dc2626">W_diver</text>
+        <!-- Board weight -->
+        <circle cx="210" cy="140" r="5" fill="#dc2626"/>
+        <line x1="210" y1="145" x2="210" y2="150" stroke="#dc2626" stroke-width="2"/>
+        <text x="220" y="135" font-size="9" fill="#dc2626">14kg</text>
+        <defs><marker id="arrow4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
+        <text x="200" y="240" text-anchor="middle" font-size="11" fill="#1e40af">Take moments about Support 1</text>
+        <text x="200" y="260" text-anchor="middle" font-size="10" fill="#1e40af">Find forces at both supports</text>
+    </svg>`,
+    
+    ring_com: `<svg class="svg-graph" width="400" height="220" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="210" rx="12" fill="#fce7f3" stroke="#ec4899" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#9f1239" font-weight="bold">💍 COM في منطقة فارغة</text>
+        <circle cx="200" cy="120" r="60" fill="none" stroke="#ec4899" stroke-width="8"/>
+        <circle cx="200" cy="120" r="8" fill="#dc2626"/>
+        <text x="200" y="125" text-anchor="middle" font-size="10" fill="white" font-weight="bold">COM</text>
+        <text x="200" y="200" text-anchor="middle" font-size="11" fill="#9f1239">COM is in empty space (no mass there!)</text>
+        <text x="200" y="215" text-anchor="middle" font-size="10" fill="#9f1239">Also true for hollow sphere, horseshoe, etc.</text>
+    </svg>`,
+    
+    rotating_body: `<svg class="svg-graph" width="400" height="260" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="390" height="250" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+        <text x="200" y="25" text-anchor="middle" font-size="14" fill="#065f46" font-weight="bold">🔄 جسم دوار في الهواء</text>
+        <!-- Wrench shape -->
+        <path d="M 150 100 Q 180 80 220 90 Q 260 100 280 130 Q 270 150 240 145 Q 200 140 180 130 Q 160 120 150 100" fill="#9ca3af" stroke="#374151" stroke-width="2"/>
+        <!-- COM -->
+        <circle cx="210" cy="115" r="8" fill="#dc2626"/>
+        <text x="220" y="110" font-size="10" fill="#dc2626" font-weight="bold">COM</text>
+        <!-- Parabolic path -->
+        <path d="M 100 200 Q 200 50 320 200" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="5"/>
+        <text x="200" y="40" text-anchor="middle" font-size="10" fill="#10b981">COM follows parabola</text>
+        <!-- Rotation arrows -->
+        <path d="M 180 90 A 30 30 0 0 1 240 90" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow5)"/>
+        <text x="210" y="80" text-anchor="middle" font-size="9" fill="#7c3aed">Rotation</text>
+        <defs><marker id="arrow5" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#7c3aed"/></marker></defs>
+        <text x="200" y="240" text-anchor="middle" font-size="11" fill="#065f46">COM moves as if all mass concentrated there</text>
+    </svg>`
+};
+
+// ==================== EXAM DATA - 35 QUESTIONS ====================
+const originalExamData = {
+    sections: [
+        {
+            id: 'sec1',
+            title: { ar: '🔹 القسم 1: مركز الكتلة (Q1-Q6)', en: '🔹 Section 1: Center of Mass (Q1-Q6)' },
+            questions: [
+                {
+                    q: { ar: 'النقطة التي تتحرك في الجسم بنفس الطريقة التي تتحرك بها الجسيمات النقطية هي:', en: 'The point that moves in the same way as point particles is:' },
+                    svg: svgGraphs.center_of_mass,
+                    options: [
+                        { ar: 'مركز الكتلة (Center of Mass)', en: 'Center of Mass' },
+                        { ar: 'مركز الهندسة (Geometric center)', en: 'Geometric center' },
+                        { ar: 'نقطة الارتكاز (Pivot)', en: 'Pivot point' },
+                        { ar: 'مركز الجاذبية فقط', en: 'Center of gravity only' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'مركز الكتلة هو النقطة التي تتحرك كما لو كانت كل الكتلة مركزة فيها', en: 'Center of mass moves as if all mass were concentrated there' }
+                },
+                {
+                    q: { ar: 'أي جسم يمكن أن يكون مركز كتلته في منطقة فارغة لا تحتوي على مادة؟', en: 'Which object can have its COM in empty space with no mass?' },
+                    svg: svgGraphs.ring_com,
+                    options: [
+                        { ar: 'حلقة (A ring)', en: 'A ring' },
+                        { ar: 'مكعب صلب', en: 'Solid cube' },
+                        { ar: 'كرة صلبة', en: 'Solid sphere' },
+                        { ar: 'أسطوانة مصمتة', en: 'Solid cylinder' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الحلقة (والكرة المجوفة) مركز كتلتها في الفراغ في المركز', en: 'Ring (and hollow sphere) has COM in empty space at center' }
+                },
+                {
+                    q: { ar: 'في الإنسان الواقف، أين يقع مركز الكتلة تقريباً؟', en: 'In a standing human, where is the center of mass approximately?' },
+                    options: [
+                        { ar: 'أسفل السرة قليلاً', en: 'Slightly below the navel' },
+                        { ar: 'في الرأس', en: 'In the head' },
+                        { ar: 'في القدمين', en: 'In the feet' },
+                        { ar: 'في منتصف الصدر', en: 'In middle of chest' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'مركز كتلة الإنسان الواقف يقع أسفل السرة قليلاً', en: 'Human COM is slightly below the navel when standing' }
+                },
+                {
+                    q: { ar: 'بالنسبة لجسم دوار يتحرك عبر الهواء، مركز الكتلة:', en: 'For a rotating body moving through air, the center of mass:' },
+                    svg: svgGraphs.rotating_body,
+                    options: [
+                        { ar: 'يتحرك وفقاً للقوى الخارجية بينما يدور الجسم حوله', en: 'Moves according to external forces while body rotates around it' },
+                        { ar: 'يبقى ثابتاً دائماً', en: 'Always stays fixed' },
+                        { ar: 'يدور مع الجسم', en: 'Rotates with the body' },
+                        { ar: 'يتحرك في خط مستقيم دائماً', en: 'Always moves in straight line' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'مركز الكتلة يتبع مساراً قطعياً مكافئاً تحت الجاذبية بينما يدور الجسم حوله', en: 'COM follows parabolic path under gravity while body rotates around it' }
+                },
+                {
+                    q: { ar: 'في الأجسام المتناظرة، أين يقع مركز الكتلة؟', en: 'In symmetric objects, where is the center of mass?' },
+                    options: [
+                        { ar: 'في المركز الهندسي', en: 'At the geometric center' },
+                        { ar: 'عند الحافة', en: 'At the edge' },
+                        { ar: 'خارج الجسم', en: 'Outside the body' },
+                        { ar: 'عشوائياً', en: 'Randomly' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'في الأجسام المتناظرة، يقع مركز الكتلة في المركز الهندسي', en: 'In symmetric objects, COM is at the geometric center' }
+                },
+                {
+                    q: { ar: 'مركز كتلة هلال (Crescent moon shape) يقع:', en: 'Center of mass of a crescent moon shape is located:' },
+                    options: [
+                        { ar: 'خارج الجسم في المنطقة الفارغة', en: 'Outside the body in the empty region' },
+                        { ar: 'في منتصف الهلال', en: 'In the middle of crescent' },
+                        { ar: 'عند الحافة الخارجية', en: 'At outer edge' },
+                        { ar: 'في المركز الهندسي للهلال', en: 'At geometric center of crescent' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'مركز كتلة الهلال يقع خارج الجسم في المنطقة الفارغة (مثل الحلقة)', en: 'COM of crescent is outside the body in empty region (like ring)' }
+                }
+            ]
+        },
+        {
+            id: 'sec2',
+            title: { ar: '🔹 القسم 2: الاستقرار (Q7-Q11)', en: '🔹 Section 2: Stability (Q7-Q11)' },
+            questions: [
+                {
+                    q: { ar: 'متى يكون الجسم مستقراً؟', en: 'When is an object stable?' },
+                    svg: svgGraphs.stability_diagram,
+                    options: [
+                        { ar: 'عندما يقع خط عمل الوزن داخل قاعدة الارتكاز', en: 'When weight line falls within base of support' },
+                        { ar: 'عندما يكون مركز الكتلة عالياً', en: 'When COM is high' },
+                        { ar: 'عندما تكون القاعدة ضيقة', en: 'When base is narrow' },
+                        { ar: 'عندما يخرج خط الوزن من القاعدة', en: 'When weight line exits base' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الجسم مستقر طالما خط عمل الوزن يقع داخل قاعدة الارتكاز', en: 'Object is stable as long as weight line falls within base of support' }
+                },
+                {
+                    q: { ar: 'ما الذي يزيد الاستقرار؟', en: 'What increases stability?' },
+                    options: [
+                        { ar: 'قاعدة عريضة + مركز كتلة منخفض', en: 'Wide base + low center of mass' },
+                        { ar: 'قاعدة ضيقة + مركز كتلة عالي', en: 'Narrow base + high center of mass' },
+                        { ar: 'قاعدة عريضة + مركز كتلة عالي', en: 'Wide base + high center of mass' },
+                        { ar: 'قاعدة ضيقة + مركز كتلة منخفض', en: 'Narrow base + low center of mass' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'القاعدة العريضة ومركز الكتلة المنخفض يزيدان الاستقرار', en: 'Wide base and low COM increase stability' }
+                },
+                {
+                    q: { ar: 'لماذا تنقلب المركبات الطويلة بسهولة أكبر؟', en: 'Why do tall vehicles tip over more easily?' },
+                    options: [
+                        { ar: 'لأن مركز كتلتها أعلى، وخط الوزن يخرج من قاعدة الارتكاز بسهولة', en: 'Because their COM is higher, weight line exits base more easily' },
+                        { ar: 'لأنها أثقل', en: 'Because they are heavier' },
+                        { ar: 'لأن قاعدتها أعرض', en: 'Because their base is wider' },
+                        { ar: 'لأن سرعتها أكبر', en: 'Because their speed is greater' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'مركز الكتلة العالي يجعل خط الوزن يخرج من قاعدة الارتكاز بسهولة عند الميلان', en: 'High COM makes weight line exit base of support easily when tilting' }
+                },
+                {
+                    q: { ar: 'يصبح الجسم غير مستقر (Unstable) عندما:', en: 'An object becomes unstable when:' },
+                    options: [
+                        { ar: 'يمر خط عمل الوزن خارج قاعدة الارتكاز', en: 'Weight line passes outside base of support' },
+                        { ar: 'يزداد وزن الجسم', en: 'Object weight increases' },
+                        { ar: 'تقل سرعة الجسم', en: 'Object speed decreases' },
+                        { ar: 'يزداد احتكاك الجسم', en: 'Object friction increases' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'عندما يخرج خط الوزن من قاعدة الارتكاز، يصبح الجسم غير مستقر وينقلب', en: 'When weight line exits base of support, object becomes unstable and tips' }
+                },
+                {
+                    q: { ar: 'عندما يبدأ الصندوق في الانقلاب (Tipping)، ما الذي يعمل كنقطة ارتكاز (Pivot)؟', en: 'When a box starts tipping, what acts as the pivot?' },
+                    svg: svgGraphs.tipping_box,
+                    options: [
+                        { ar: 'الحافة السفلية الملامسة للأرض', en: 'The bottom edge touching the ground' },
+                        { ar: 'مركز الكتلة', en: 'Center of mass' },
+                        { ar: 'أعلى الصندوق', en: 'Top of the box' },
+                        { ar: 'منتصف الصندوق', en: 'Middle of the box' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الحافة السفلية الملامسة للأرض تعمل كنقطة ارتكاز عند الانقلاب', en: 'Bottom edge touching ground acts as pivot when tipping' }
+                }
+            ]
+        },
+        {
+            id: 'sec3',
+            title: { ar: '🔹 القسم 3: شروط الاتزان (Q12-Q17)', en: '🔹 Section 3: Equilibrium Conditions (Q12-Q17)' },
+            questions: [
+                {
+                    q: { ar: 'أي شرط يصف الاتزان الانتقالي (Translational Equilibrium)؟', en: 'Which condition describes translational equilibrium?' },
+                    svg: svgGraphs.equilibrium_conditions,
+                    options: [
+                        { ar: '<span class="math-display">F_net = 0</span> (محصلة القوى = صفر)', en: '<span class="math-display">F_net = 0</span> (net force = 0)' },
+                        { ar: '<span class="math-display">τ_net = 0</span>', en: '<span class="math-display">τ_net = 0</span>' },
+                        { ar: '<span class="math-display">F_net = ma</span>', en: '<span class="math-display">F_net = ma</span>' },
+                        { ar: '<span class="math-display">v = 0</span> فقط', en: '<span class="math-display">v = 0</span> only' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الاتزان الانتقالي: محصلة القوى = صفر (ΣF = 0)', en: 'Translational equilibrium: net force = 0 (ΣF = 0)' }
+                },
+                {
+                    q: { ar: 'أي شرط يصف الاتزان الدوراني (Rotational Equilibrium)؟', en: 'Which condition describes rotational equilibrium?' },
+                    options: [
+                        { ar: '<span class="math-display">τ_net = 0</span> (محصلة العزوم = صفر)', en: '<span class="math-display">τ_net = 0</span> (net torque = 0)' },
+                        { ar: '<span class="math-display">F_net = 0</span>', en: '<span class="math-display">F_net = 0</span>' },
+                        { ar: '<span class="math-display">ω = 0</span> فقط', en: '<span class="math-display">ω = 0</span> only' },
+                        { ar: '<span class="math-display">α = constant</span>', en: '<span class="math-display">α = constant</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'الاتزان الدوراني: محصلة عزوم الدوران = صفر (Στ = 0)', en: 'Rotational equilibrium: net torque = 0 (Στ = 0)' }
+                },
+                {
+                    q: { ar: 'أي حالة يكون فيها محصلة العزوم صفراً ومحصلة القوى لا تساوي صفراً؟', en: 'Which case has net torque = 0 but net force ≠ 0?' },
+                    options: [
+                        { ar: 'صندوق يُدفع من مركزه ويتسارع في خط مستقيم', en: 'Box pushed from center, accelerating in straight line' },
+                        { ar: 'عجلة تدور بسرعة ثابتة', en: 'Wheel rotating at constant speed' },
+                        { ar: 'جسم ساكن تماماً', en: 'Completely stationary object' },
+                        { ar: 'بندول يتأرجح', en: 'Swinging pendulum' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'القوة تمر بمركز الكتلة فلا تسبب عزماً، لكنها تسبب تسارعاً خطياً', en: 'Force passes through COM so no torque, but causes linear acceleration' }
+                },
+                {
+                    q: { ar: 'أي حالة في اتزان انتقالي ولكن ليست في اتزان دوراني؟', en: 'Which case is in translational but not rotational equilibrium?' },
+                    options: [
+                        { ar: 'عجلة تتأثر بزوج من القوى (Couple) متساوية ومتعاكسة', en: 'Wheel acted on by a couple of equal and opposite forces' },
+                        { ar: 'كتاب على طاولة', en: 'Book on a table' },
+                        { ar: 'كرة تتدحرج على مستوى مائل', en: 'Ball rolling down incline' },
+                        { ar: 'جسم يسقط بحرية', en: 'Freely falling object' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'زوج القوى: محصلة القوى = 0 لكنهما تسببان عزماً صافياً يجعل العجلة تدور', en: 'Couple: net force = 0 but they create net torque making wheel rotate' }
+                },
+                {
+                    q: { ar: 'عزم الدوران يعتمد على:', en: 'Torque depends on:' },
+                    svg: svgGraphs.torque_diagram,
+                    options: [
+                        { ar: 'القوة والذراع العمودي والزاوية (τ = F × d × sin θ)', en: 'Force, lever arm, and angle (τ = F × d × sin θ)' },
+                        { ar: 'الكتلة فقط', en: 'Mass only' },
+                        { ar: 'السرعة فقط', en: 'Speed only' },
+                        { ar: 'الطاقة فقط', en: 'Energy only' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'τ = F × d × sin(θ) يعتمد على القوة والذراع والزاوية', en: 'τ = F × d × sin(θ) depends on force, lever arm, and angle' }
+                },
+                {
+                    q: { ar: 'متى يكون عزم الدوران أكبر ما يمكن؟', en: 'When is torque maximum?' },
+                    options: [
+                        { ar: 'عندما θ = 90° (القوة عمودية على الذراع)', en: 'When θ = 90° (force perpendicular to lever arm)' },
+                        { ar: 'عندما θ = 0°', en: 'When θ = 0°' },
+                        { ar: 'عندما θ = 45°', en: 'When θ = 45°' },
+                        { ar: 'عندما d = 0', en: 'When d = 0' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'sin(90°) = 1، لذا العزم أقصى عندما تكون القوة عمودية على الذراع', en: 'sin(90°) = 1, so torque is max when force is perpendicular to lever arm' }
+                }
+            ]
+        },
+        {
+            id: 'sec4',
+            title: { ar: '🔹 القسم 4: حسابات العزم (Q18-Q23)', en: '🔹 Section 4: Torque Calculations (Q18-Q23)' },
+            questions: [
+                {
+                    q: { ar: 'قوة 10 N تؤثر عمودياً على ذراع طوله 0.5 m. ما عزم الدوران؟', en: 'Force 10 N acts perpendicular to lever arm 0.5 m. What is torque?' },
+                    options: [
+                        { ar: '<span class="math-display">5 N·m</span>', en: '<span class="math-display">5 N·m</span>' },
+                        { ar: '<span class="math-display">20 N·m</span>', en: '<span class="math-display">20 N·m</span>' },
+                        { ar: '<span class="math-display">0.5 N·m</span>', en: '<span class="math-display">0.5 N·m</span>' },
+                        { ar: '<span class="math-display">50 N·m</span>', en: '<span class="math-display">50 N·m</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'τ = F × d = 10 × 0.5 = 5 N·m', en: 'τ = F × d = 10 × 0.5 = 5 N·m' }
+                },
+                {
+                    q: { ar: 'قوة 20 N تؤثر بزاوية 30° على ذراع 0.4 m. ما عزم الدوران؟', en: 'Force 20 N at 30° on lever arm 0.4 m. What is torque?' },
+                    options: [
+                        { ar: '<span class="math-display">4 N·m</span>', en: '<span class="math-display">4 N·m</span>' },
+                        { ar: '<span class="math-display">8 N·m</span>', en: '<span class="math-display">8 N·m</span>' },
+                        { ar: '<span class="math-display">2 N·m</span>', en: '<span class="math-display">2 N·m</span>' },
+                        { ar: '<span class="math-display">6 N·m</span>', en: '<span class="math-display">6 N·m</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'τ = F × d × sin(θ) = 20 × 0.4 × sin(30°) = 20 × 0.4 × 0.5 = 4 N·m', en: 'τ = F × d × sin(θ) = 20 × 0.4 × sin(30°) = 4 N·m' }
+                },
+                {
+                    q: { ar: 'لوح خشبي كتلته 4.25 kg وطوله 1.75 m. صندوق 6 kg يبعد 0.5 m عن الطرف الأيمن. ما وزن اللوح؟', en: 'Wooden board mass 4.25 kg, length 1.75 m. Box 6 kg is 0.5 m from right end. Weight of board?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 41.65 N</span>', en: '<span class="math-display">≈ 41.65 N</span>' },
+                        { ar: '<span class="math-display">4.25 N</span>', en: '<span class="math-display">4.25 N</span>' },
+                        { ar: '<span class="math-display">42.5 N</span>', en: '<span class="math-display">42.5 N</span>' },
+                        { ar: '<span class="math-display">416.5 N</span>', en: '<span class="math-display">416.5 N</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'W = mg = 4.25 × 9.8 ≈ 41.65 N', en: 'W = mg = 4.25 × 9.8 ≈ 41.65 N' }
+                },
+                {
+                    q: { ar: 'في مسألة اللوح: الوزن الكلي (لوح + صندوق) = ?', en: 'In board problem: total weight (board + box) = ?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 100.45 N</span>', en: '<span class="math-display">≈ 100.45 N</span>' },
+                        { ar: '<span class="math-display">10.25 N</span>', en: '<span class="math-display">10.25 N</span>' },
+                        { ar: '<span class="math-display">1000 N</span>', en: '<span class="math-display">1000 N</span>' },
+                        { ar: '<span class="math-display">50 N</span>', en: '<span class="math-display">50 N</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'W_total = (4.25 + 6) × 9.8 = 10.25 × 9.8 ≈ 100.45 N', en: 'W_total = (4.25 + 6) × 9.8 = 10.25 × 9.8 ≈ 100.45 N' }
+                },
+                {
+                    q: { ar: 'عمود مصباح: وزن العمود 27 N عند 0.22 m من الارتكاز. ما عزم العمود؟', en: 'Lamp pole: pole weight 27 N at 0.22 m from pivot. Torque of pole?' },
+                    svg: svgGraphs.lamp_pole,
+                    options: [
+                        { ar: '<span class="math-display">5.94 N·m</span>', en: '<span class="math-display">5.94 N·m</span>' },
+                        { ar: '<span class="math-display">59.4 N·m</span>', en: '<span class="math-display">59.4 N·m</span>' },
+                        { ar: '<span class="math-display">0.594 N·m</span>', en: '<span class="math-display">0.594 N·m</span>' },
+                        { ar: '<span class="math-display">122.7 N·m</span>', en: '<span class="math-display">122.7 N·m</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'τ = 27 × 0.22 = 5.94 N·m', en: 'τ = 27 × 0.22 = 5.94 N·m' }
+                },
+                {
+                    q: { ar: 'في نفس المسألة: وزن المصباح 64 N عند 0.33 m. ما عزم المصباح؟', en: 'In same problem: lamp weight 64 N at 0.33 m. Torque of lamp?' },
+                    options: [
+                        { ar: '<span class="math-display">21.12 N·m</span>', en: '<span class="math-display">21.12 N·m</span>' },
+                        { ar: '<span class="math-display">211.2 N·m</span>', en: '<span class="math-display">211.2 N·m</span>' },
+                        { ar: '<span class="math-display">2.112 N·m</span>', en: '<span class="math-display">2.112 N·m</span>' },
+                        { ar: '<span class="math-display">194 N·m</span>', en: '<span class="math-display">194 N·m</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'τ = 64 × 0.33 = 21.12 N·m', en: 'τ = 64 × 0.33 = 21.12 N·m' }
+                }
+            ]
+        },
+        {
+            id: 'sec5',
+            title: { ar: ' القسم 5: مسائل تطبيقية متقدمة (Q24-Q29)', en: '🔹 Section 5: Advanced Applied Problems (Q24-Q29)' },
+            questions: [
+                {
+                    q: { ar: 'لوح 24 kg طوله 4.5 m مدعوم من المنتصف ومن الطرف. ما قوة دعامة المنتصف؟', en: 'Board 24 kg, length 4.5 m supported at center and end. Force at center support?' },
+                    svg: svgGraphs.diving_board,
+                    options: [
+                        { ar: '<span class="math-display">235.2 N</span>', en: '<span class="math-display">235.2 N</span>' },
+                        { ar: '<span class="math-display">117.6 N</span>', en: '<span class="math-display">117.6 N</span>' },
+                        { ar: '<span class="math-display">24 N</span>', en: '<span class="math-display">24 N</span>' },
+                        { ar: '<span class="math-display">470.4 N</span>', en: '<span class="math-display">470.4 N</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'دعامة المنتصف تحمل كل الوزن: F = mg = 24 × 9.8 = 235.2 N (دعامة الطرف = 0)', en: 'Center support carries all weight: F = mg = 24 × 9.8 = 235.2 N (end support = 0)' }
+                },
+                {
+                    q: { ar: 'في مسألة لوحة القفز: غواص 85 kg عند الطرف، اللوح 14 kg. قوة دعامة المركز تقريباً:', en: 'Diving board: diver 85 kg at end, board 14 kg. Force at center support approximately:' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 1803 N</span>', en: '<span class="math-display">≈ 1803 N</span>' },
+                        { ar: '<span class="math-display">≈ 850 N</span>', en: '<span class="math-display">≈ 850 N</span>' },
+                        { ar: '<span class="math-display">≈ 990 N</span>', en: '<span class="math-display">≈ 990 N</span>' },
+                        { ar: '<span class="math-display">≈ 2000 N</span>', en: '<span class="math-display">≈ 2000 N</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'دعامة المركز تدفع للأعلى بقوة ≈ 1803 N لموازنة عزم الغواص واللوح', en: 'Center support pushes up with ≈ 1803 N to balance diver and board torques' }
+                },
+                {
+                    q: { ar: 'في مسألة عمود المصباح: الشد في الحبل T ≈ ?', en: 'In lamp pole problem: tension in rope T ≈ ?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 63.7 N</span>', en: '<span class="math-display">≈ 63.7 N</span>' },
+                        { ar: '<span class="math-display">≈ 91 N</span>', en: '<span class="math-display">≈ 91 N</span>' },
+                        { ar: '<span class="math-display">≈ 27 N</span>', en: '<span class="math-display">≈ 27 N</span>' },
+                        { ar: '<span class="math-display">≈ 64 N</span>', en: '<span class="math-display">≈ 64 N</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'T × 0.44 × sin(105°) = 5.94 + 21.12 → T ≈ 63.7 N', en: 'T × 0.44 × sin(105°) = 5.94 + 21.12 → T ≈ 63.7 N' }
+                },
+                {
+                    q: { ar: 'لوح يحمله شخصان: F_right ≈ 62.8 N و F_left ≈ ?', en: 'Board carried by two people: F_right ≈ 62.8 N and F_left ≈ ?' },
+                    options: [
+                        { ar: '<span class="math-display">≈ 37.6 N</span>', en: '<span class="math-display">≈ 37.6 N</span>' },
+                        { ar: '<span class="math-display">≈ 62.8 N</span>', en: '<span class="math-display">≈ 62.8 N</span>' },
+                        { ar: '<span class="math-display">≈ 100 N</span>', en: '<span class="math-display">≈ 100 N</span>' },
+                        { ar: '<span class="math-display">≈ 25 N</span>', en: '<span class="math-display">≈ 25 N</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'F_left = 100.45 - 62.8 ≈ 37.6 N', en: 'F_left = 100.45 - 62.8 ≈ 37.6 N' }
+                },
+                {
+                    q: { ar: 'عندما مال الصندوق أكثر، ماذا يحدث لعزم الاستعادة (Restoring torque)؟', en: 'As box tilts more, what happens to restoring torque?' },
+                    options: [
+                        { ar: 'يقل (It decreases)', en: 'It decreases' },
+                        { ar: 'يزداد', en: 'It increases' },
+                        { ar: 'يبقى ثابتاً', en: 'Stays constant' },
+                        { ar: 'يصبح صفراً فوراً', en: 'Becomes zero immediately' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'يقل لأن الذراع العمودي بين نقطة الارتكاز وخط عمل الوزن يقل', en: 'Decreases because perpendicular distance between pivot and weight line decreases' }
+                },
+                {
+                    q: { ar: 'لحل مسائل الاتزان، ما الخطوة الأولى؟', en: 'To solve equilibrium problems, what is the first step?' },
+                    options: [
+                        { ar: 'رسم مخطط الجسم الحر (Free Body Diagram)', en: 'Draw Free Body Diagram' },
+                        { ar: 'حساب السرعة', en: 'Calculate velocity' },
+                        { ar: 'قياس درجة الحرارة', en: 'Measure temperature' },
+                        { ar: 'حساب الطاقة', en: 'Calculate energy' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'أول خطوة هي رسم مخطط الجسم الحر لإظهار كل القوى', en: 'First step is to draw Free Body Diagram showing all forces' }
+                }
+            ]
+        },
+        {
+            id: 'sec6',
+            title: { ar: '🔹 القسم 6: مفاهيم متقدمة (Q30-Q35)', en: '🔹 Section 6: Advanced Concepts (Q30-Q35)' },
+            questions: [
+                {
+                    q: { ar: 'في مسألة لوحة القفز، دعامة الطرف تسحب للأسفل بقوة:', en: 'In diving board problem, end support pulls down with force:' },
+                    options: [
+                        { ar: '<span class="math-display">≈ -833 N</span> (سالب = للأسفل)', en: '<span class="math-display">≈ -833 N</span> (negative = downward)' },
+                        { ar: '<span class="math-display">+833 N</span>', en: '<span class="math-display">+833 N</span>' },
+                        { ar: '<span class="math-display">0 N</span>', en: '<span class="math-display">0 N</span>' },
+                        { ar: '<span class="math-display">-1803 N</span>', en: '<span class="math-display">-1803 N</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'دعامة الطرف تسحب للأسفل ≈ -833 N لتمنع اللوح من الانقلاب', en: 'End support pulls down ≈ -833 N to prevent board from tipping' }
+                },
+                {
+                    q: { ar: 'لوح 24 kg مدعوم من المنتصف والطرف. قوة دعامة الطرف:', en: 'Board 24 kg supported at center and end. Force at end support:' },
+                    options: [
+                        { ar: '<span class="math-display">0 N</span>', en: '<span class="math-display">0 N</span>' },
+                        { ar: '<span class="math-display">235.2 N</span>', en: '<span class="math-display">235.2 N</span>' },
+                        { ar: '<span class="math-display">117.6 N</span>', en: '<span class="math-display">117.6 N</span>' },
+                        { ar: '<span class="math-display">24 N</span>', en: '<span class="math-display">24 N</span>' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'عند أخذ العزوم حول مركز الكتلة، دعامة الطرف = 0 N', en: 'Taking moments about COM, end support = 0 N' }
+                },
+                {
+                    q: { ar: 'محصلة القوى في الاتزان الانتقالي تساوي:', en: 'Net force in translational equilibrium equals:' },
+                    options: [
+                        { ar: 'صفر', en: 'Zero' },
+                        { ar: 'الوزن', en: 'Weight' },
+                        { ar: 'الكتلة × التسارع', en: 'Mass × acceleration' },
+                        { ar: 'القوة aplicada', en: 'Applied force' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'ΣF = 0 في الاتزان الانتقالي', en: 'ΣF = 0 in translational equilibrium' }
+                },
+                {
+                    q: { ar: 'محصلة العزوم في الاتزان الدوراني تساوي:', en: 'Net torque in rotational equilibrium equals:' },
+                    options: [
+                        { ar: 'صفر', en: 'Zero' },
+                        { ar: 'القوة × الذراع', en: 'Force × arm' },
+                        { ar: 'الكتلة × التسارع الزاوي', en: 'Mass × angular acceleration' },
+                        { ar: 'الطاقة الدورانية', en: 'Rotational energy' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'Στ = 0 في الاتزان الدوراني', en: 'Στ = 0 in rotational equilibrium' }
+                },
+                {
+                    q: { ar: 'عند اختيار نقطة ارتكاز ذكية في مسائل الاتزان، نفضل:', en: 'When choosing smart pivot point in equilibrium problems, prefer:' },
+                    options: [
+                        { ar: 'نقطة وجود قوة مجهولة لتختفي من معادلة العزوم', en: 'Point where unknown force exists to eliminate it from torque equation' },
+                        { ar: 'مركز الكتلة دائماً', en: 'Always center of mass' },
+                        { ar: 'أبعد نقطة', en: 'Farthest point' },
+                        { ar: 'أي نقطة عشوائية', en: 'Any random point' }
+                    ],
+                    correct: 0,
+                    answer: { ar: 'نختار نقطة عند قوة مجهولة حتى يكون ذراعها = 0 فتختفي من المعادلة', en: 'Choose point at unknown force so its arm = 0 and it disappears from equation' }
+                },
+                {
+                    q: { ar: 'ترتيب خطوات حل مسائل الاتزان:', en: 'Order of steps to solve equilibrium problems:' },
+                    options: [
+                        { ar: 'FBD → اختر Pivot → Στ=0 → ΣF=0', en: 'FBD → choose Pivot → Στ=0 → ΣF=0' },
+                        { ar: 'ΣF=0 → FBD → Στ=0', en: 'ΣF=0 → FBD → Στ=0' },
+                        { ar: 'احسب الوزن فقط', en: 'Calculate weight only' },
+                        { ar: 'ارسم الشكل فقط', en: 'Draw shape only' }
+                    ],
+                    correct: 0,
+                    answer: { ar: '1) FBD، 2) اختر Pivot ذكي، 3) Στ=0 للقوة المجهولة الأولى، 4) ΣF=0 للثانية', en: '1) FBD, 2) choose smart Pivot, 3) Στ=0 for first unknown, 4) ΣF=0 for second' }
+                }
+            ]
+        }
+    ]
+};
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+let examData;
+let correctAnswersMap = {};
+let currentLang = 'ar';
+let timeRemaining = TOTAL_TIME;
+let timerInterval;
+
+function prepareShuffledExam() {
+    rng = mulberry32(currentSeed);
+    examData = JSON.parse(JSON.stringify(originalExamData));
+    correctAnswersMap = {};
+    let globalIdx = 0;
+    examData.sections.forEach((section) => {
+        section.questions = shuffleArray(section.questions);
+        section.questions.forEach((q) => {
+            const optionsWithCorrect = q.options.map((opt, idx) => ({ option: opt, isCorrect: idx === q.correct }));
+            const shuffledOptions = shuffleArray(optionsWithCorrect);
+            q.options = shuffledOptions.map(o => o.option);
+            q.correct = shuffledOptions.findIndex(o => o.isCorrect);
+            correctAnswersMap[globalIdx] = String.fromCharCode(97 + q.correct);
+            globalIdx++;
+        });
+    });
+}
+
+function reshuffleExam() {
+    const msg = currentLang === 'ar' ? '🔄 سيتم إنشاء أسئلة جديدة ومسح إجاباتك الحالية. هل أنت متأكد؟' : '🔄 New questions will be generated and current answers cleared. Are you sure?';
+    if (confirm(msg)) {
+        currentSeed = Date.now(); timeRemaining = TOTAL_TIME; answersVisible = false;
+        prepareShuffledExam(); renderExam(); saveState();
+        alert(currentLang === 'ar' ? ' تم تغيير الأسئلة! حظاً موفقاً! ' : '🎲 Questions changed! Good luck! 🍀');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.body.classList.toggle('en-mode', lang === 'en');
+    document.querySelectorAll('[data-ar][data-en]').forEach(el => {
+        el.innerHTML = lang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+    });
+    renderExam(); saveState(false);
+}
+
+function renderExam() {
+    const container = document.getElementById('exam-content');
+    const labels = { ar: { option: ['أ', 'ب', 'ج', 'د'], answer: '✅ الإجابة:' }, en: { option: ['A', 'B', 'C', 'D'], answer: '✅ Answer:' } };
+    const lbl = labels[currentLang]; const isRTL = currentLang === 'ar';
+    let html = ''; let globalIdx = 0;
+    examData.sections.forEach((section, secIdx) => {
+        const badgeClass = ['module-1', 'module-2', 'module-3', 'module-4', 'module-5', 'module-6'][secIdx];
+        html += `<section class="bg-white p-6 rounded-2xl shadow-lg border-2 border-cyan-100">
+            <div class="text-center mb-4"><span class="module-badge ${badgeClass}">${section.title[currentLang]}</span></div>
+            <ol class="space-y-4 text-sm">`;
+        section.questions.forEach((q) => {
+            const bs = isRTL ? 'border-r-4 pr-4' : 'border-l-4 pl-4';
+            html += `<li class="${bs} border-cyan-400 py-2" id="q-${globalIdx}">
+                <strong class="text-cyan-700">${globalIdx + 1}.</strong> <span class="arabic-math">${q.q[currentLang]}</span><br>`;
+            if (q.svg) html += `<div class="graph-container">${q.svg}</div>`;
+            q.options.forEach((opt, oIdx) => {
+                const rs = isRTL ? 'mr-4 ml-2' : 'ml-4 mr-2';
+                html += `<label class="cursor-pointer block mt-2 ${isRTL ? 'mr-4' : 'ml-4'} hover:bg-cyan-50 rounded-lg p-2 transition">
+                    <input type="radio" name="q${globalIdx}" value="${String.fromCharCode(97 + oIdx)}" class="${rs}">
+                    <span class="arabic-math">${lbl.option[oIdx]}) ${opt[currentLang]}</span>
+                </label>`;
+            });
+            html += `<div class="answer-box text-green-700 mt-3 font-medium ${answersVisible ? '' : 'hidden'} bg-green-50 rounded-lg p-3 border border-green-200">
+                ${lbl.answer} ${lbl.option[q.correct]}) <span class="arabic-math">${q.options[q.correct][currentLang]}</span><br>
+                <span class="text-sm text-green-700 mt-2 block arabic-math">${q.answer[currentLang]}</span>
+            </div></li>`;
+            globalIdx++;
+        });
+        html += `</ol></section>`;
+    });
+    container.innerHTML = html;
+}
+
+function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        timeRemaining--; updateTimerDisplay();
+        if (timeRemaining % 60 === 0) saveState(false);
+        if (timeRemaining <= 600) document.getElementById('timer').classList.add('timer-warning');
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            alert(currentLang === 'ar' ? " انتهى الوقت!" : "⏰ Time's up!");
+            gradeExam();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const m = Math.floor(timeRemaining / 60); const s = timeRemaining % 60;
+    document.getElementById('timer').textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
+
+function toggleAnswers() {
+    answersVisible = !answersVisible;
+    document.querySelectorAll('.answer-box').forEach(el => el.classList.toggle('hidden', !answersVisible));
+    saveState(false);
+}
+
+function gradeExam() {
+    let correctCount = 0;
+    const sectionScores = new Array(TOTAL_SECTIONS).fill(0);
+    const sectionCounts = [6, 5, 6, 6, 6, 6];
+    let qIdx = 0;
+    examData.sections.forEach((section, secIdx) => {
+        section.questions.forEach(() => {
+            const sel = document.querySelector(`input[name="q${qIdx}"]:checked`);
+            const li = document.getElementById(`q-${qIdx}`);
+            if (li) {
+                const isCorrect = sel && sel.value === correctAnswersMap[qIdx];
+                if (isCorrect) { correctCount++; li.classList.add('correct'); li.classList.remove('incorrect'); sectionScores[secIdx]++; }
+                else { li.classList.add('incorrect'); li.classList.remove('correct'); }
+            }
+            qIdx++;
+        });
+    });
+    const score = Math.round((correctCount / TOTAL_QUESTIONS) * 100);
+    document.getElementById('res-total').textContent = `${score} / 100`;
+    document.getElementById('res-name').textContent = document.getElementById('studentName').value || (currentLang === 'ar' ? 'بطل' : 'Champion');
+    document.getElementById('res-date').textContent = new Date().toLocaleDateString(currentLang === 'ar' ? 'ar-AE' : 'en-US');
+    const pc = document.getElementById('sections-performance'); pc.innerHTML = '';
+    examData.sections.forEach((s, idx) => {
+        pc.innerHTML += `<div class="flex justify-between items-center p-3 bg-white rounded-lg"><span class="text-gray-700">${s.title[currentLang]}</span><span class="font-bold text-cyan-700">${sectionScores[idx]}/${s.questions.length}</span></div>`;
+    });
+    const badge = document.getElementById('success-badge');
+    document.getElementById('success-percent').textContent = `${score}%`;
+    if (currentLang === 'ar') {
+        if (score >= 90) { badge.textContent = '🌟 ممتاز جداً!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 ممتاز!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 جيد'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 حاول مرة أخرى'; badge.className = 'success-badge grade-fail'; }
+    } else {
+        if (score >= 90) { badge.textContent = '🌟 Outstanding!'; badge.className = 'success-badge grade-excellent'; }
+        else if (score >= 75) { badge.textContent = '👏 Excellent!'; badge.className = 'success-badge grade-good'; }
+        else if (score >= 50) { badge.textContent = '👍 Good'; badge.className = 'success-badge grade-pass'; }
+        else { badge.textContent = '💪 Try Again'; badge.className = 'success-badge grade-fail'; }
+    }
+    document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth' });
+    if (timerInterval) clearInterval(timerInterval);
+}
+
+function sendResultsToEmail() {
+    const btn = document.getElementById('sendEmailBtn');
+    const status = document.getElementById('emailStatus');
+    btn.disabled = true;
+    btn.textContent = currentLang === 'ar' ? '⏳ جاري الإرسال...' : '⏳ Sending...';
+    const name = document.getElementById('studentName').value || 'N/A';
+    const studentClass = document.getElementById('studentClass').value || 'N/A';
+    const date = document.getElementById('examDate').value || new Date().toLocaleDateString();
+    const score = document.getElementById('res-total').textContent;
+    const successRate = document.getElementById('success-percent').textContent;
+    const badge = document.getElementById('success-badge').textContent;
+    let questionsHTML = ''; let globalIdx = 0;
+    examData.sections.forEach((section, sectionIdx) => {
+        questionsHTML += `<tr style="background:linear-gradient(135deg,#0891b2,#0e7490);color:white;"><td colspan="5" style="padding:12px;font-weight:bold;">📌 ${currentLang==='ar'?'القسم':'Section'} ${sectionIdx+1}: ${section.title[currentLang]}</td></tr>`;
+        section.questions.forEach((q) => {
+            const sel = document.querySelector(`input[name="q${globalIdx}"]:checked`);
+            const sv = sel ? sel.value : null; const cv = correctAnswersMap[globalIdx]; const ic = sv === cv;
+            let sat = currentLang==='ar'?'❌ لم يجب':'❌ No answer'; let sac = '#dc2626';
+            if (sv) { const si = sv.charCodeAt(0)-97; sat = q.options[si][currentLang]; sac = ic?'#059669':'#dc2626'; }
+            const cat = q.options[q.correct][currentLang];
+            const rb = ic?'#f0fdf4':'#fef2f2'; const bl = ic?'4px solid #10b981':'4px solid #ef4444';
+            questionsHTML += `<tr style="background:${rb};border-right:${bl};"><td style="padding:10px;border:1px solid #e5e7eb;text-align:center;font-weight:bold;">${globalIdx+1}</td><td style="padding:10px;border:1px solid #e5e7eb;"><strong style="color:#0e7490;">${currentLang==='ar'?'❓ السؤال:':'❓ Question:'}</strong><br><span style="font-size:13px;">${q.q[currentLang]}</span></td><td style="padding:10px;border:1px solid #e5e7eb;"><strong style="color:${sac};">${currentLang==='ar'?'✍️ إجابة الطالب:':'✍️ Student:'}</strong><br><span style="color:${sac};font-size:13px;">${sat}</span></td><td style="padding:10px;border:1px solid #e5e7eb;"><strong style="color:#059669;">${currentLang==='ar'?'✅ الصحيحة:':'✅ Correct:'}</strong><br><span style="color:#059669;font-size:13px;">${cat}</span></td><td style="padding:10px;border:1px solid #e5e7eb;text-align:center;">${ic?'<span style="font-size:24px;">✅</span>':'<span style="font-size:24px;">❌</span>'}</td></tr>`;
+            globalIdx++;
+        });
+    });
+    const answersHTML = `<div style="font-family:'Segoe UI',Tahoma,Arial;direction:${currentLang==='ar'?'rtl':'ltr'};"><div style="background:linear-gradient(135deg,#0891b2,#0e7490);color:white;padding:20px;border-radius:10px 10px 0 0;text-align:center;"><h2 style="margin:0;">️ ${currentLang==='ar'?'نتيجة امتحان مركز الكتلة والاتزان':'Center of Mass & Equilibrium Exam Result'}</h2><p style="margin:5px 0 0;opacity:0.9;">Grade 11 Advanced - Physics</p></div><div style="background:#ecfeff;padding:15px;"><table style="width:100%;border-collapse:collapse;"><tr><td style="padding:8px;font-weight:bold;color:#0e7490;">${currentLang==='ar'?'😊 الاسم:':'😊 Name:'}</td><td style="padding:8px;">${name}</td><td style="padding:8px;font-weight:bold;color:#0e7490;">${currentLang==='ar'?'🏫 الشعبة:':'🏫 Class:'}</td><td style="padding:8px;">${studentClass}</td></tr><tr><td style="padding:8px;font-weight:bold;color:#0e7490;">${currentLang==='ar'?'📅 التاريخ:':' Date:'}</td><td style="padding:8px;">${date}</td><td style="padding:8px;font-weight:bold;color:#0e7490;">${currentLang==='ar'?'🏆 التقدير:':'🏆 Grade:'}</td><td style="padding:8px;">${badge}</td></tr></table></div><div style="background:white;padding:20px;text-align:center;"><div style="display:inline-block;margin:0 15px;"><div style="font-size:32px;font-weight:bold;color:#0891b2;">${score}</div><div style="color:#6b7280;font-size:13px;">${currentLang==='ar'?'الدرجة':'Score'}</div></div><div style="display:inline-block;margin:0 15px;"><div style="font-size:32px;font-weight:bold;color:#059669;">${successRate}%</div><div style="color:#6b7280;font-size:13px;">${currentLang==='ar'?'النسبة':'Rate'}</div></div></div><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="background:#0891b2;color:white;"><th style="padding:10px;border:1px solid #0e7490;">#</th><th style="padding:10px;border:1px solid #0e7490;">${currentLang==='ar'?'السؤال':'Question'}</th><th style="padding:10px;border:1px solid #0e7490;">${currentLang==='ar'?'إجابة الطالب':'Student'}</th><th style="padding:10px;border:1px solid #0e7490;">${currentLang==='ar'?'الصحيحة':'Correct'}</th><th style="padding:10px;border:1px solid #0e7490;">${currentLang==='ar'?'النتيجة':'Result'}</th></tr></thead><tbody>${questionsHTML}</tbody></table><div style="background:linear-gradient(135deg,#ecfeff,#cffafe);padding:15px;border-radius:0 0 10px 10px;"><p style="margin:0;color:#0e7490;text-align:center;">️ <strong>${currentLang==='ar'?'أحسنت يا بطل! استمر في إتقان الفيزياء!':'Great job! Keep mastering Physics!'}</strong> ⚖️</p><p style="margin:5px 0 0;color:#0e7490;text-align:center;font-size:12px;">${currentLang==='ar'?'تم الإرسال تلقائياً | Mr. Mohammed Hesham':'Auto-sent | Mr. Mohammed Hesham'}</p></div></div>`;
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, { to_email: TARGET_EMAIL, student_name: name, student_class: studentClass, exam_date: date, total_score: score, success_rate: successRate, grade: badge, answers_table: answersHTML }).then(() => {
+        status.textContent = currentLang==='ar'?'✅ تم الإرسال بنجاح!':'✅ Sent successfully!'; status.style.color = '#059669'; btn.textContent = currentLang==='ar'?'✓ تم':'✓ Sent';
+    }).catch(err => {
+        status.textContent = currentLang==='ar'?'❌ حدث خطأ':'❌ Error'; status.style.color = '#dc2626'; btn.disabled = false; btn.textContent = currentLang==='ar'?'📧 حاول مرة أخرى':'📧 Try Again'; console.error(err);
+    });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const saved = loadState();
+    if (saved && saved.seed) {
+        currentSeed = saved.seed; currentLang = saved.lang || 'ar';
+        timeRemaining = saved.timeRemaining !== undefined ? saved.timeRemaining : TOTAL_TIME;
+        answersVisible = saved.answersVisible || false;
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        document.getElementById('btn-ar').classList.toggle('active', currentLang === 'ar');
+        document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+        document.body.classList.toggle('en-mode', currentLang === 'en');
+        document.querySelectorAll('[data-ar][data-en]').forEach(el => { el.innerHTML = currentLang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en'); });
+    } else { currentSeed = Date.now(); }
+    prepareShuffledExam(); renderExam();
+    if (saved) {
+        if (saved.studentName) document.getElementById('studentName').value = saved.studentName;
+        if (saved.studentClass) document.getElementById('studentClass').value = saved.studentClass;
+        if (saved.examDate) document.getElementById('examDate').value = saved.examDate;
+        if (saved.answers) restoreAnswers(saved.answers);
+    }
+    setupAnswerListeners(); setupInputListeners(); startTimer();
+});
+window.addEventListener('beforeunload', () => saveState(false));
+</script>
+</body>
+</html>
